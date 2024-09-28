@@ -13,7 +13,7 @@ export class Items extends Base {
   @PrimaryGeneratedColumn('uuid', { name: 'item_id' })
   itemId: string;
 
-  @Column({ name: 'name', type: 'varchar', length: 50 })
+  @Column({ name: 'name', type: 'citext' })
   name: string;
 
   @Column({ name: 'description', nullable: true, type: 'varchar', length: 255 })

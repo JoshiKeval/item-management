@@ -15,6 +15,8 @@ export const DbConnection = [
         database: configService.get('DATABASE_NAME'),
         synchronize: +configService.get('DATABASE_SYNC') === 1,
         entities: [Users, Items],
+        migrations: [Users, Items],
+        migrationsTableName: 'migrations',
         logging: true,
         logger: configService.get('DATABASE_LOG_LEVEL'),
       });

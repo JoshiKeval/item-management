@@ -24,7 +24,7 @@ export class UserAuthGuard implements CanActivate {
         'UserAuthGuard->>token-not-provide',
         new Date().toISOString(),
       );
-      throw new UnauthorizedException(ErrorMessages.UNAUTHORIZED);
+      throw new UnauthorizedException();
     }
 
     try {

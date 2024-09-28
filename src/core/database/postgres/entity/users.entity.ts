@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Base } from './base';
-import { Status } from '@core/interfaces';
 import { Items } from './items.entity';
 
 @Entity('users')
@@ -24,7 +23,7 @@ export class Users extends Base {
     name: 'status',
     type: 'varchar',
     length: 10,
-    default: Status.Inactive,
+    default: 'Inactive',
   })
   status: string;
 
