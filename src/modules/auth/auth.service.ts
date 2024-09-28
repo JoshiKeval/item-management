@@ -51,7 +51,7 @@ export class AuthService {
 
     await this.pgUsersRepo.saveUser(user);
 
-    // this.mailService.sendRegistrationEmail(email, hashedEmail);
+    this.mailService.sendRegistrationEmail(email, hashedEmail);
 
     return SuccessMessages.SIGN_UP;
   }
@@ -74,7 +74,7 @@ export class AuthService {
     return SuccessMessages.MAIL_VERIFY;
   }
 
-  async signIn(payload: SignInReqDto) {
+  async signIn(payload: SignInReqDto): Promise<SignInResDto> {
     const { email, password } = payload;
 
     const user = await this.pgUsersRepo.findOne({

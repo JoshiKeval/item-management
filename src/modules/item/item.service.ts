@@ -108,7 +108,7 @@ export class ItemService {
         { name: payload?.name, userId: user?.id },
       );
       if (isItemExist) {
-        throw new BadRequestException(ErrorMessages.ITEM_ALREADY_EXIST);
+        throw new BadRequestException(ErrorMessages.ITEM_NAME_ALREADY_EXIST);
       }
     }
 
