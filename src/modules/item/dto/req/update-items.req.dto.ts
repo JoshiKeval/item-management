@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import {
   IsNumber,
   IsOptional,
-  IsPositive,
+  Min,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -32,7 +32,7 @@ export class UpdateItemReqDto {
     required: true,
   })
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   @Type(() => Number)
   @IsOptional()
   readonly quantity?: number;

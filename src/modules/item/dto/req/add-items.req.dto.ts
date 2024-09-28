@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsPositive,
+  Min,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -33,7 +33,7 @@ export class AddItemReqDto {
     required: true,
   })
   @IsNumber()
-  @IsPositive()
+  @Min(0)
   @Type(() => Number)
   readonly quantity: number;
 

@@ -2,9 +2,9 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsNumber,
   IsOptional,
-  IsPositive,
   IsString,
   MaxLength,
+  Min,
 } from 'class-validator';
 import { PaginationReqDto } from './pagination.req.dto';
 import { Type } from 'class-transformer';
@@ -33,7 +33,7 @@ export class GetItemQueryDto extends PaginationReqDto {
   })
   @IsNumber()
   @IsOptional()
-  @IsPositive()
+  @Min(0)
   @Type(() => Number)
   readonly quantityStart: number;
 
@@ -43,7 +43,7 @@ export class GetItemQueryDto extends PaginationReqDto {
   })
   @IsNumber()
   @IsOptional()
-  @IsPositive()
+  @Min(0)
   @Type(() => Number)
   readonly quantityEnd?: number;
 
