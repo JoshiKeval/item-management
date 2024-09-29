@@ -31,9 +31,13 @@ export class AuthService {
   async signUp(payload: SignUpReqDto): Promise<string> {
     const { email, name, password } = payload;
 
-    const isUserExist = await this.pgUsersRepo.findOne({
-      where: { email },
-    });
+    const isUserExist = await this.pgUsersRepo.fetchOne(
+      {},
+      {},
+      {
+        email,
+      },
+    );
 
     if (isUserExist) {
       throw new BadRequestException(ErrorMessages.ACCOUNT_ALREADY_EXIST);
