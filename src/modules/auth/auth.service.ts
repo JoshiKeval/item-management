@@ -58,16 +58,21 @@ export class AuthService {
 
   async verifyAccount(payload: AccountVerifyReqDto): Promise<string> {
     const { token } = payload;
-    const user = await this.pgUsersRepo.findOne({
-      where: { emailVerificationToken: token },
-    });
+    const user = await this.pgUsersRepo.fetchOne(
+      {},
+      {},
+      {
+        emailVerificationToken: token,
+      },
+    );
 
-    if (user.status === Status.Active) {
-      throw new BadRequestException('Account already verified');
+    if (user.isEmailVerified) {
+      throw new BadRequestException(ErrorMessages.ACCOUNT_ALREADY_VERIFIED);
     }
 
     user.status = Status.Active;
     user.emailVerifiedAt = new Date();
+    user.isEmailVerified = true;
 
     await this.pgUsersRepo.saveUser(user);
 
@@ -77,14 +82,18 @@ export class AuthService {
   async signIn(payload: SignInReqDto): Promise<SignInResDto> {
     const { email, password } = payload;
 
-    const user = await this.pgUsersRepo.findOne({
-      where: { email },
-    });
+    const user = await this.pgUsersRepo.fetchOne(
+      {},
+      {},
+      {
+        email,
+      },
+    );
 
     if (!user) {
       throw new UnauthorizedException(ErrorMessages.UNAUTHORIZED);
     }
-    if (user.status === Status.Inactive) {
+    if (!user?.isEmailVerified) {
       throw new BadRequestException(ErrorMessages.VERIFICATION_PENDDING);
     }
 

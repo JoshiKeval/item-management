@@ -7,4 +7,5 @@ export enum ErrorMessages {
   ITEM_NAME_ALREADY_EXIST = 'Item already exists with given name',
   ITEM_NOT_EXIST = 'Item not exists',
   IMAGE_FORMAT_NOT_VALID = 'File format not valid .It must be (png or jpg)',
+  ACCOUNT_ALREADY_VERIFIED = 'Account already verified',
 }
