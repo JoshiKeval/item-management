@@ -61,8 +61,8 @@ export class ItemController {
   @Get('/')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Api for get item OR list Items',
-    description: 'Api for get item OR list Items',
+    summary: 'Api for get single item OR list Items',
+    description: 'Api for get single item OR list Items',
   })
   @ApiResponse({
     status: HttpStatus.OK,
