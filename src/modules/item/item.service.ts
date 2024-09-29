@@ -11,7 +11,7 @@ import { S3Service } from '@core/aws';
 import { extname } from 'path';
 import { User } from '@core/interfaces';
 import { Between, ILike, LessThan, MoreThan } from 'typeorm';
-import { ItemListReqDto } from './dto/res';
+import { ItemListReqDto, ItemResDto } from './dto/res';
 
 @Injectable()
 export class ItemService {
@@ -152,5 +152,20 @@ export class ItemService {
     }
     const objectUrl = await this.s3Service.uploadFile(file, key);
     return objectUrl;
+  }
+
+  async getSingleItem(itemId: string): Promise<ItemResDto> {
+    const item = await this.pgItemsRepo.fetchOne({}, {}, { itemId });
+    if (!item) {
+      throw new BadRequestException(ErrorMessages.ITEM_NOT_EXIST);
+    }
+    return new ItemResDto(
+      item?.itemId,
+      item?.name,
+      item?.quantity,
+      item.image,
+      item?.createdAt,
+      item?.description,
+    );
   }
 }

@@ -109,4 +109,18 @@ export class ItemController {
   async deleteItem(@Param('itemId') itemId: string) {
     return { message: await this.service.deleteItem(itemId) };
   }
+
+  @Get('/:itemId')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Api for get single item',
+    description: 'Api for single item',
+  })
+  @ApiParam({ name: 'itemId' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  async getSingleItem(@Param('itemId') itemId: string) {
+    return { data: await this.service.getSingleItem(itemId) };
+  }
 }
