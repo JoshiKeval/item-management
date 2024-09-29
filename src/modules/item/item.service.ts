@@ -20,7 +20,11 @@ export class ItemService {
     private readonly s3Service: S3Service,
   ) {}
 
-  async addItem(payload: AddItemReqDto, file: any, user: User) {
+  async addItem(
+    payload: AddItemReqDto,
+    file: any,
+    user: User,
+  ): Promise<string> {
     const { name, quantity, description } = payload;
     const isItemExist = await this.pgItemsRepo.fetchOne(
       {},
@@ -96,18 +100,18 @@ export class ItemService {
     itemId: string,
     user: User,
     file: any,
-  ) {
+  ): Promise<string> {
     const isItemExist = await this.pgItemsRepo.fetchOne({}, {}, { itemId });
     if (!isItemExist) {
       throw new BadRequestException(ErrorMessages.ITEM_NOT_EXIST);
     }
     if (payload?.name) {
-      const isItemExist = await this.pgItemsRepo.fetchOne(
+      const nameExists = await this.pgItemsRepo.fetchOne(
         {},
         {},
         { name: payload?.name, userId: user?.id },
       );
-      if (isItemExist) {
+      if (nameExists) {
         throw new BadRequestException(ErrorMessages.ITEM_NAME_ALREADY_EXIST);
       }
     }
@@ -130,7 +134,7 @@ export class ItemService {
     return SuccessMessages.ITEM_UPDATED;
   }
 
-  async deleteItem(itemId: string) {
+  async deleteItem(itemId: string): Promise<string> {
     const isItemExist = await this.pgItemsRepo.fetchOne({}, {}, { itemId });
     if (!isItemExist) {
       throw new BadRequestException(ErrorMessages.ITEM_NOT_EXIST);
@@ -139,7 +143,7 @@ export class ItemService {
     return SuccessMessages.ITEM_DELETED;
   }
 
-  async uploadImage(userId: string, file: any) {
+  async uploadImage(userId: string, file: any): Promise<string> {
     const isFileValid = isImageValid(file);
     const ext = extname(file.originalname);
     const key = `${userId}/${Date.now()}${ext}`;
